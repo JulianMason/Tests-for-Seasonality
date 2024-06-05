@@ -1,0 +1,12 @@
+Package: seasonalityTest
+Title: Test for Seasonality in Time Series Data
+Version: 0.0.0.9000
+Authors@R: 
+    person("Julian", "Mason", , "JDBMason@protonmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "YOUR-ORCID-ID"))
+Description: The seasonalityTest package provides a set of functions for testing the presence of seasonality in time series data. It offers various trend options such as linear, quadratic, exponential, linear moving averages, and linear exponential smoothing. The main function, seasonality_test, performs statistical tests on the data based on the specified trend and returns a result indicating the presence or absence of statistically significant seasonality. Additionally, the package allows users to obtain detailed summary statistics for each test if desired. With the seasonalityTest package, users can easily assess whether their time series data exhibits significant seasonality, enabling them to make informed decisions and insights based on the results.
+License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
+    license
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
