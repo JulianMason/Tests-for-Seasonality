@@ -1,5 +1,16 @@
+#' Quadratic Seasonality Test
+#'
+#' This function performs a seasonality test assuming a quadratic trend in the data.
+#'
+#' @param data A numeric vector or time series object.
+#' @param s The frequency of the time series.
+#' @return A list containing the Ui, Vi, and Di values.
+#' @examples
+#' data <- c(1, 2, 3, 4, 5)
+#' quadratic_result <- quadratic(data, s = 12)
+#' @export
 quadratic <- function(data, s) {
-  require(forecast)
+  #requireNamespace(forecast)
 
   # Decompose the time series using STL
   decomposed_data <- stl(data, s.window="periodic")

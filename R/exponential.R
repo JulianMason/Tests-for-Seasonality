@@ -1,6 +1,17 @@
+#' Exponential Seasonality Test
+#'
+#' This function performs a seasonality test assuming an exponential trend in the data.
+#'
+#' @param data A numeric vector or time series object.
+#' @param s The frequency of the time series.
+#' @return A list containing the Ui, Vi, and Di values.
+#' @examples
+#' data <- c(1, 2, 3, 4, 5)
+#' exponential_result <- exponential(data, s = 12)
+#' @export
 exponential <- function(data, s = frequency(data)) {
-  require(forecast)
-  require(minpack.lm)
+  #requireNamespace(forecast)
+  #requireNamespace(minpack.lm)
 
   # Decompose the time series using STL
   #ts_data <- ts(data, frequency = s)

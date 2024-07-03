@@ -1,3 +1,14 @@
+#' Convert Data to Time Series
+#'
+#' This function converts a numeric data vector or univariate time series to a time series object with a specified frequency.
+#'
+#' @param data A numeric vector or univariate time series.
+#' @param s The frequency of the time series. Can be one of "weekly", "monthly", "quarterly", "yearly" or 52, 12, 4, 1.
+#' @return A time series object.
+#' @examples
+#' data <- c(1, 2, 3, 4, 5)
+#' ts_data <- convert_to_time_series(data, s = "monthly")
+#' @export
 convert_to_time_series <- function(data, s="monthly") {
 
   # Check if data is numeric and not empty
@@ -61,6 +72,17 @@ convert_to_time_series <- function(data, s="monthly") {
   return(data)
 }
 
+#' Identify Trend in Data
+#'
+#' This function identifies the trend in a given numeric data vector or univariate time series.
+#'
+#' @param data A numeric vector or univariate time series.
+#' @param s The frequency of the time series. Can be one of "weekly", "monthly", "quarterly", "yearly" or 52, 12, 4, 1.
+#' @return A list containing the identified trend and the time series object.
+#' @examples
+#' data <- c(1, 2, 3, 4, 5)
+#' trend_result <- identify_trend(data, s = "monthly")
+#' @export
 identify_trend <- function(data, s="monthly") {
 
   if ((!is.character(s) && !is.numeric(s)) ||

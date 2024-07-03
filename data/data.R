@@ -1,4 +1,6 @@
-library(quantmod)
+#install.packages("quantmod")
+#library(quantmod)
+#requireNamespace(quantmod)
 
 ticker_sp <- "^GSPC"
 ticker_nq <- "^IXIC"

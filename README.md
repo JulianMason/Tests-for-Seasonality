@@ -1,7 +1,3 @@
-Here's a brief summary for the README file based on the content provided:
-
----
-
 # Seasonality Test for Time Series Data: R Package
 
 ## Overview
@@ -36,13 +32,20 @@ devtools::install_github("github_username/seasonality_test")
 Basic usage examples:
 ```R
 library(seasonalityTest)
-# Convert data to time series
-ts_data <- convert_to_timeseries(data)
-# Detect trend
-trend <- identify_trend(ts_data)
-# Perform seasonality test
-result <- seasonality_test(ts_data, trend=trend)
+
+# Example data
+data <- c(10, 15, 20, 15, 10, 25, 30, 20, 15, 10)
+
+# Run seasonality test with automatic trend detection
+result <- run_seasonality_test(data)
+print(result)
+
+# Run seasonality test with specified trend
+result <- run_seasonality_test(data, trend = "linear")
+print(result)
 ```
+
+
 
 ## Author
 
@@ -52,6 +55,3 @@ Julian Dein Bara-Mason
 
 This project is licensed under the MIT License.
 
----
-
-This summary provides a concise overview of the project, its features, and how to use it, suitable for a GitHub README file. Let me know if you need any further customization or details.

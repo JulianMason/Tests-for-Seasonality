@@ -1,5 +1,17 @@
+#' Linear Seasonality Test
+#'
+#' This function performs a seasonality test assuming a linear trend in the data.
+#'
+#' @param data A numeric vector or time series object.
+#' @param s The frequency of the time series.
+#' @param seasons_to_check A vector of seasons to check for seasonality.
+#' @return A list containing the Ui, Vi, and di values.
+#' @examples
+#' data <- c(1, 2, 3, 4, 5)
+#' linear_result <- linear(data, s = 12)
+#' @export
 linear <- function(data, s = frequency(data), seasons_to_check = 1:s) {
-  require(forecast)
+  #requireNamespace(forecast)
 
   # Decompose the time series using STL
   ts_data <- ts(data, frequency = s)

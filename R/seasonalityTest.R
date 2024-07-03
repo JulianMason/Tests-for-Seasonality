@@ -12,22 +12,22 @@
 #' @examples
 #' # Example 1: Linear Trend with default Confidence Level and Summary Data
 #' data <- c(10, 15, 20, 15, 10)
-#' result <- seasonality_test(data, trend = "linear", summary_data = TRUE)
+#' result <- run_seasonality_test(data, trend = "linear", summary_data = TRUE)
 #' print(result)
 #'
-#' # Example 2: Linear Trend without trend parameter
+#' # Example 2: Linear Trend without specifying trend parameter
 #' data <- c(10, 15, 20, 15, 10)
-#' result <- seasonality_test(data)
+#' result <- run_seasonality_test(data)
 #' print(result)
 #'
-#' # Example 2: Quadratic Trend with Different Confidence Level and No Summary Data
+#' # Example 3: Quadratic Trend with Different Confidence Level and No Summary Data
 #' data <- c(10, 15, 20, 15, 10)
-#' result <- seasonality_test(data, trend = "quadratic", s = 2, confidence_level = 0.01)
+#' result <- run_seasonality_test(data, trend = "quadratic", s = 2, confidence_level = 0.01)
 #' print(result)
 #'
-#' # Example 3: Exponential Trend with Default Confidence Level and Summary Data
+#' # Example 4: Exponential Trend with Default Confidence Level and Summary Data
 #' data <- c(10, 15, 20, 15, 10)
-#' result <- seasonality_test(data, trend = "exponential", s = 0.5, summary_data = TRUE)
+#' result <- run_seasonality_test(data, trend = "exponential", s = 0.5, summary_data = TRUE)
 #' print(result)
 #'
 #' @export
@@ -45,11 +45,27 @@ run_seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05
   }
 }
 
+#' Seasonality Test
+#'
+#' This function performs a seasonality test based on the specified trend and seasonality parameter.
+#'
+#' @param data The input data for the seasonality test.
+#' @param trend The trend type for the seasonality test. Supported options: linear, quadratic, exponential.
+#' @param s The seasonality parameter (default = 12).
+#' @param confidence_level The desired confidence level for the statistical tests (default = 0.05).
+#' @param seasons_to_check A vector of seasons to check for seasonality.
+#' @param summary_data Flag indicating whether to include the results summary (default = TRUE).
+#' @return A list containing the result message, summary statistics, and the time series data.
+#' @examples
+#' data <- c(10, 15, 20, 15, 10)
+#' result <- seasonality_test(data, trend = "linear", s = 12, confidence_level = 0.05, summary_data = TRUE)
+#' print(result)
+#' @export
 seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05, seasons_to_check = 1:s, summary_data = TRUE) {
 
   #install.packages("crayon")
-  require(crayon)
-  require(DescTools)
+  #requireNamespace(crayon)
+  #requireNamespace(DescTools)
 
   # Ensure that the data is converted to a time series object
   data <- convert_to_time_series(data, s)
@@ -62,7 +78,7 @@ seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05, se
   # If the trend was not specified, call the identify_trend function
   trend_not_specified <- is.null(trend)
   if (trend_not_specified) {
-    source("/Users/jay/Documents/Documents - Jay's Macbook Pro (13281)/MSc Data Science & Analytics - UoL/Dissertation/disso 2/R/default.R")
+    source("R/default.R")
     result <- identify_trend(data, s)
 
     if (is.null(result$trend)) {
@@ -90,19 +106,19 @@ seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05, se
 
   if (trend == "linear") {
     # Call the linear function from linear.R
-    source("/Users/jay/Documents/Documents - Jay's Macbook Pro (13281)/MSc Data Science & Analytics - UoL/Dissertation/disso 2/R/linear.R")
+    source("R/linear.R")
     linear_result <- linear(data)
     Ui <- linear_result$Ui
     Vi <- linear_result$Vi
   } else if (trend == "quadratic") {
     # Call the quadratic function from quadratic.R
-    source("/Users/jay/Documents/Documents - Jay's Macbook Pro (13281)/MSc Data Science & Analytics - UoL/Dissertation/disso 2/R/quadratic.R")
+    source("R/quadratic.R")
     quadratic_result <- quadratic(data, s)
     Ui <- quadratic_result$Ui
     Vi <- quadratic_result$Vi
   } else if (trend == "exponential") {
     # Call the exponential function from exponential.R
-    source("/Users/jay/Documents/Documents - Jay's Macbook Pro (13281)/MSc Data Science & Analytics - UoL/Dissertation/disso 2/R/exponential.R")
+    source("R/exponential.R")
     exponential_result <- exponential(data, s)
     Ui <- exponential_result$Ui
     Vi <- exponential_result$Vi
@@ -159,6 +175,21 @@ seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05, se
   return(result)
 }
 
+#' Interactive Seasonality Test
+#'
+#' This function performs an interactive seasonality test on a given time series data.
+#'
+#' @param data The input data for the seasonality test.
+#' @param s The seasonality parameter (default = 12).
+#' @param confidence_level The desired confidence level for the statistical tests (default = 0.05).
+#' @param seasons_to_check A vector of seasons to check for seasonality.
+#' @param summary_data Flag indicating whether to include the results summary (default = TRUE).
+#' @return The result of the seasonality test.
+#' @examples
+#' data <- c(10, 15, 20, 15, 10)
+#' result <- interactive_seasonality_test(data, s = 12, confidence_level = 0.05, summary_data = TRUE)
+#' print(result)
+#' @export
 interactive_seasonality_test <- function(data, s=12, confidence_level = 0.05, seasons_to_check = 1:s, summary_data = TRUE) {
   # First, run the seasonality test without specifying a trend
   result <- seasonality_test(data, trend=NULL, s=s, confidence_level=confidence_level, summary_data=summary_data)
@@ -192,7 +223,7 @@ interactive_seasonality_test <- function(data, s=12, confidence_level = 0.05, se
       trend <- readline(prompt = "Inspect the plot of the trend and select the most suitable trend (linear, quadratic, exponential): ")
 
       # Rerun the test with the specified trend
-      result <- seasonality_test(data, trend, window, s, confidence_level)
+      result <- seasonality_test(data, trend, s=s, confidence_level=confidence_level, summary_data=summary_data)
 
       # Print the result excluding data_ts
       print(result$message)
@@ -206,64 +237,64 @@ interactive_seasonality_test <- function(data, s=12, confidence_level = 0.05, se
 
 
 
-run_seasonality_test(sp500__ts)
+#run_seasonality_test(sp500__ts)
 
-run_seasonality_test(quadratic_seasonal)
-run_seasonality_test(quadratic_seasonal, trend="quadratic", s=12)
+#run_seasonality_test(quadratic_seasonal)
+#run_seasonality_test(quadratic_seasonal, trend="quadratic", s=12)
 
-sp500__ts
-sp500_clean_ts <- ts(as.numeric(sp500__ts), start = start(sp500__ts), frequency = frequency(sp500__ts))
-run_seasonality_test(sp500__ts, s="monthly", trend="linear", summary_data = TRUE)
-head(sp500__ts, 120)
+#sp500__ts
+#sp500_clean_ts <- ts(as.numeric(sp500__ts), start = start(sp500__ts), frequency = frequency(sp500__ts))
+#run_seasonality_test(sp500__ts, s="monthly", trend="linear", summary_data = TRUE)
+#head(sp500__ts, 120)
 
-set.seed(123)  # for reproducibility
-t <- 1:120  # time index
-seasonality <- 10 * sin(2 * pi * t / 12)  # seasonality component with a 12-month period
-trend <- poly(t, 2, raw = TRUE) %*% c(0.5, -0.01)  # quadratic trend component
-noise <- rnorm(length(t))  # random noise
-seasonal_series <- trend + seasonality + noise
-str(seasonal_series)
-
-trend_only_series <- trend + noise
-plot(trend_only_series, type = "l")
-
-
-run_seasonality_test(linear_non_seasonal, s="yearly", trend="linear")
-run_seasonality_test(linear_seasonal, s="yearly", trend="linear")
-
-run_seasonality_test(linear_non_seasonal, s="yearly", trend="linear")
-run_seasonality_test(seasonal_series, s="monthly", trend="quadratic")
-
-run_seasonality_test(linear_non_seasonal, s="yearly")
-run_seasonality_test(linear_seasonal, s="yearly")
-
-# Set seed for reproducibility
-set.seed(123)
-
-# Define parameters
-n = 120 # number of months for 10 years
-slope = 0.05 # slope of the trend
-intercept = 2 # y-intercept of the trend
-
-# Generate time index
-time_index = 1:n
-
-# Generate linear trend
-trend = intercept + slope * time_index
-
-# Generate random noise
-noise = rnorm(n, mean = 0, sd = 1) # increase sd to 1
-
-# Combine trend and noise to create the final time series
-linear_series = trend + noise
-
-# Plot the series
-plot(linear_series, type = "l", main = "Linear Time Series without Seasonality")
-
-# Convert to time-series object
-linear_series_ts <- ts(linear_series, frequency = 12)
-
-
-run_seasonality_test(linear_series_ts, period="quarterly", trend="linear", confidence_level=0.01)
-run_seasonality_test(linear_series_ts, period="monthly", trend="linear", confidence_level=0.1)
-seasonality_test()
+# set.seed(123)  # for reproducibility
+# t <- 1:120  # time index
+# seasonality <- 10 * sin(2 * pi * t / 12)  # seasonality component with a 12-month period
+# trend <- poly(t, 2, raw = TRUE) %*% c(0.5, -0.01)  # quadratic trend component
+# noise <- rnorm(length(t))  # random noise
+# seasonal_series <- trend + seasonality + noise
+# str(seasonal_series)
+#
+# trend_only_series <- trend + noise
+# plot(trend_only_series, type = "l")
+#
+#
+# run_seasonality_test(linear_non_seasonal, s="yearly", trend="linear")
+# run_seasonality_test(linear_seasonal, s="yearly", trend="linear")
+#
+# run_seasonality_test(linear_non_seasonal, s="yearly", trend="linear")
+# run_seasonality_test(seasonal_series, s="monthly", trend="quadratic")
+#
+# run_seasonality_test(linear_non_seasonal, s="yearly")
+# run_seasonality_test(linear_seasonal, s="yearly")
+#
+# # Set seed for reproducibility
+# set.seed(123)
+#
+# # Define parameters
+# n = 120 # number of months for 10 years
+# slope = 0.05 # slope of the trend
+# intercept = 2 # y-intercept of the trend
+#
+# # Generate time index
+# time_index = 1:n
+#
+# # Generate linear trend
+# #trend = intercept + slope * time_index
+#
+# # Generate random noise
+# #noise = rnorm(n, mean = 0, sd = 1) # increase sd to 1
+#
+# # Combine trend and noise to create the final time series
+# linear_series = trend + noise
+#
+# # Plot the series
+# plot(linear_series, type = "l", main = "Linear Time Series without Seasonality")
+#
+# # Convert to time-series object
+# linear_series_ts <- ts(linear_series, frequency = 12)
+#
+#
+# run_seasonality_test(linear_series_ts, period="quarterly", trend="linear", confidence_level=0.01)
+# run_seasonality_test(linear_series_ts, period="monthly", trend="linear", confidence_level=0.1)
+# seasonality_test()
