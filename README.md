@@ -29,77 +29,114 @@ devtools::install_github("github_username/seasonality_test")
 
 ## Usage
 
-### Generating Synthetic Data:
+### Using Internal Data Examples:
+#### Stock Market Indices Data:
 ```R
-# Load necessary libraries
-library(seasonalityTest)
-library(ggplot2)
+# Load and run seasonality tests on S&P 500 data
+data(internal_dataset)
+sp500_result <- seasonality_test(internal_dataset$sp500_ts, trend = "linear")
+print(sp500_result)
 
-# Function to generate synthetic data
-generate_data <- function(type, n, freq, noise_level = 0.1) {
-  time <- 1:n
-  if (type == "linear") {
-    trend <- time
-  } else if (type == "quadratic") {
-    trend <- time^2
-  } else if (type == "exponential") {
-    trend <- exp(time / 50)
-  } else {
-    trend <- rep(0, n)
-  }
-  
-  seasonality <- sin(2 * pi * time / freq)
-  noise <- rnorm(n, sd = noise_level)
-  
-  data <- trend + seasonality + noise
-  return(data)
-}
+# Load and run seasonality tests on NASDAQ data
+data(internal_dataset)
+nasdaq_result <- seasonality_test(internal_dataset$nq_ts, trend = "linear")
+print(nasdaq_result)
 
-# Example data generation
-set.seed(123)
-linear_data <- generate_data("linear", 100, 12)
-quadratic_data <- generate_data("quadratic", 100, 12)
-exponential_data <- generate_data("exponential", 100, 12)
-no_seasonality_data <- generate_data("none", 100, 12)
+# Load and run seasonality tests on Dow Jones data
+data(internal_dataset)
+dowjones_result <- seasonality_test(internal_dataset$dj_ts, trend = "linear")
+print(dowjones_result)
+```
+#### Weather Data
+```R
+# Load and run seasonality tests on the GCAG weather data
+data(internal_dataset)
+gcag_result <- seasonality_test(internal_dataset$gcag_ts, trend = "linear")
+print(gcag_result)
 
 ```
-### Example Plots
-```R
-# Plot the data
-plot_data <- function(data, title) {
-  df <- data.frame(time = 1:length(data), value = data)
-  ggplot(df, aes(x = time, y = value)) + 
-    geom_line() + 
-    ggtitle(title) + 
-    theme_minimal()
-}
 
-plot_data(linear_data, "Linear Trend with Seasonality")
-plot_data(quadratic_data, "Quadratic Trend with Seasonality")
-plot_data(exponential_data, "Exponential Trend with Seasonality")
-plot_data(no_seasonality_data, "No Seasonality")
+#### Synthetic Data
+```R
+# Load and run seasonality tests on synthetic linear seasonal data
+data(internal_dataset)
+linear_seasonal_result <- seasonality_test(internal_dataset$linear_seasonal, trend = "linear")
+print(linear_seasonal_result)
+
+# Load and run seasonality tests on synthetic linear non-seasonal data
+data(internal_dataset)
+linear_non_seasonal_result <- seasonality_test(internal_dataset$linear_non_seasonal, trend = "linear")
+print(linear_non_seasonal_result)
+
+# Load and run seasonality tests on synthetic quadratic seasonal data
+data(internal_dataset)
+quadratic_seasonal_result <- seasonality_test(internal_dataset$quadratic_seasonal, trend = "quadratic")
+print(quadratic_seasonal_result)
+
+# Load and run seasonality tests on synthetic quadratic non-seasonal data
+data(internal_dataset)
+quadratic_non_seasonal_result <- seasonality_test(internal_dataset$quadratic_non_seasonal, trend = "quadratic")
+print(quadratic_non_seasonal_result)
+
+# Load and run seasonality tests on synthetic exponential seasonal data
+data(internal_dataset)
+exponential_seasonal_result <- seasonality_test(internal_dataset$exponential_seasonal, trend = "exponential")
+print(exponential_seasonal_result)
+
+# Load and run seasonality tests on synthetic exponential non-seasonal data
+data(internal_dataset)
+exponential_non_seasonal_result <- seasonality_test(internal_dataset$exponential_non_seasonal, trend = "exponential")
+print(exponential_non_seasonal_result)
+
 ```
 
-### Running Seasonaity Tests
+#### Generic and Anomalous Synthetic Data
 ```R 
-# Run seasonality tests on synthetic data
-linear_result <- seasonality_test(linear_data, trend = "linear")
-quadratic_result <- seasonality_test(quadratic_data, trend = "quadratic")
-exponential_result <- seasonality_test(exponential_data, trend = "exponential")
-no_seasonality_result <- seasonality_test(no_seasonality_data, trend = "linear")
+# Display the first few rows and run seasonality test on the generic data
+data(internal_dataset)
+generic_data_result <- seasonality_test(internal_dataset$generic_data, trend = "linear")
+print(generic_data_result)
 
-print(linear_result)
-print(quadratic_result)
-print(exponential_result)
-print(no_seasonality_result)
+# Display and run seasonality test on the matrix-format data
+data(internal_dataset)
+matrix_data_result <- seasonality_test(internal_dataset$mat_data, trend = "linear")
+print(matrix_data_result)
+
+# Display and run seasonality test on the matrix-format data (univariate)
+data(internal_dataset)
+matrix_data_uni_result <- seasonality_test(internal_dataset$mat_data_uni, trend = "linear")
+print(matrix_data_uni_result)
+
+# Display and run seasonality test on the anomalous data
+data(internal_dataset)
+anomalous_data_result <- seasonality_test(internal_dataset$anomalous_data, trend = "linear")
+print(anomalous_data_result)
+
+# Display the attributes and run seasonality test on the attributed time series
+data(internal_dataset)
+attributed_ts_result <- seasonality_test(internal_dataset$attributed_ts, trend = "linear")
+print(attributed_ts_result)
+
+# Display and run seasonality test on the non-numeric data
+data(internal_dataset)
+non_numeric_result <- seasonality_test(internal_dataset$non_numeric, trend = "linear")
+print(non_numeric_result)
+
 ```
 
 ### Input Parameter Customisation Examples
 ```R
-# Custom parameters
-custom_result <- seasonality_test(linear_data, trend = "linear", s = 12, confidence_level = 0.1)
-print(custom_result)
+# Custom parameters on linear seasonal data
+custom_linear_seasonal_result <- seasonality_test(internal_dataset$linear_seasonal, trend = "linear", s = 12, confidence_level = 0.1)
+print(custom_linear_seasonal_result)
 
+# Custom parameters on quadratic seasonal data
+custom_quadratic_seasonal_result <- seasonality_test(internal_dataset$quadratic_seasonal, trend = "quadratic", s = 12, confidence_level = 0.05)
+print(custom_quadratic_seasonal_result)
+
+# Custom parameters on exponential seasonal data
+custom_exponential_seasonal_result <- seasonality_test(internal_dataset$exponential_seasonal, trend = "exponential", s = 12, confidence_level = 0.2)
+print(custom_exponential_seasonal_result)
 ```
 
 ### Edge Cases
@@ -118,7 +155,6 @@ print(non_numeric_result)
 missing_values_data <- c(10, 20, NA, 30, 40)
 missing_values_result <- seasonality_test(missing_values_data, trend = "linear")
 print(missing_values_result)
-
 ```
 
 

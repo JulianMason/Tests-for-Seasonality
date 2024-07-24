@@ -1,0 +1,66 @@
+#' Internal Dataset for Testing
+#'
+#' A collection of various datasets including synthetic time series data, generic datasets,
+#' matrix-format datasets, data with anomalies, attributed time series, non-numeric data, and weather data.
+#'
+#' @docType data
+#' @usage data(internal_dataset)
+#' @format A list containing multiple datasets:
+#' \describe{
+#'   \item{linear_seasonal}{Synthetic linear time series data with seasonality. \cr
+#'     A time series object with monthly frequency.}
+#'   \item{linear_non_seasonal}{Synthetic linear time series data without seasonality. \cr
+#'     A time series object with monthly frequency.}
+#'   \item{quadratic_seasonal}{Synthetic quadratic time series data with seasonality. \cr
+#'     A time series object with monthly frequency.}
+#'   \item{quadratic_non_seasonal}{Synthetic quadratic time series data without seasonality. \cr
+#'     A time series object with monthly frequency.}
+#'   \item{exponential_seasonal}{Synthetic exponential time series data with seasonality. \cr
+#'     A time series object with monthly frequency.}
+#'   \item{exponential_non_seasonal}{Synthetic exponential time series data without seasonality. \cr
+#'     A time series object with monthly frequency.}
+#'   \item{generic_data}{A generic dataset of random numbers. \cr
+#'     A numeric vector of length 1200.}
+#'   \item{mat_data}{A matrix-format dataset with two series. \cr
+#'     A matrix with 120 rows and 2 columns.}
+#'   \item{mat_data_uni}{A matrix-format dataset with one series. \cr
+#'     A matrix with 120 rows and 1 column.}
+#'   \item{anomalous_data}{A dataset with anomalies including NA and Inf values. \cr
+#'     A numeric vector of length 120.}
+#'   \item{attributed_ts}{An attributed time series dataset. \cr
+#'     A time series object with monthly frequency and additional attributes.}
+#'   \item{non_numeric}{A factor with non-numeric data. \cr
+#'     A factor with 5 levels.}
+#'   \item{gcag_ts}{A time series of synthetic weather data from 2000 to 2022. \cr
+#'     A time series object with monthly frequency.}
+#' }
+#' @references This dataset was artificially created for the seasonalityTest package.
+#' @keywords datasets
+#' @examples
+#' data(internal_dataset)
+#' # Plot Synthetic Linear Seasonal Time Series
+#' plot(internal_dataset$linear_seasonal, main="Linear Seasonal Synthetic Data")
+#' # Plot Synthetic Linear Non-Seasonal Time Series
+#' plot(internal_dataset$linear_non_seasonal, main="Linear Non-Seasonal Synthetic Data")
+#' # Plot Synthetic Quadratic Seasonal Time Series
+#' plot(internal_dataset$quadratic_seasonal, main="Quadratic Seasonal Synthetic Data")
+#' # Plot Synthetic Quadratic Non-Seasonal Time Series
+#' plot(internal_dataset$quadratic_non_seasonal, main="Quadratic Non-Seasonal Synthetic Data")
+#' # Plot Synthetic Exponential Seasonal Time Series
+#' plot(internal_dataset$exponential_seasonal, main="Exponential Seasonal Synthetic Data")
+#' # Plot Synthetic Exponential Non-Seasonal Time Series
+#' plot(internal_dataset$exponential_non_seasonal, main="Exponential Non-Seasonal Synthetic Data")
+#' # Display the first few rows of the generic data
+#' head(internal_dataset$generic_data)
+#' # Display the matrix-format data
+#' head(internal_dataset$mat_data)
+#' head(internal_dataset$mat_data_uni)
+#' # Display the anomalous data
+#' internal_dataset$anomalous_data
+#' # Display the attributes of the attributed time series
+#' attributes(internal_dataset$attributed_ts)
+#' # Display the non-numeric data
+#' internal_dataset$non_numeric
+#' # Plot the synthetic weather data
+#' plot(internal_dataset$gcag_ts, main="GCAG Synthetic Weather Data")
+"internal_dataset"

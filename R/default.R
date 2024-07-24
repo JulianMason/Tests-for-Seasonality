@@ -1,128 +1,134 @@
-#' Convert Data to Time Series
-#'
-#' This function converts a numeric data vector or univariate time series to a time series object with a specified frequency.
-#'
-#' @param data A numeric vector or univariate time series.
-#' @param s The frequency of the time series. Can be one of "weekly", "monthly", "quarterly", "yearly" or 52, 12, 4, 1.
-#' @return A time series object.
-#' @examples
-#' data <- c(1, 2, 3, 4, 5)
-#' ts_data <- convert_to_time_series(data, s = "monthly")
-#' @export
-convert_to_time_series <- function(data, s="monthly") {
+# Load necessary packages for testing
+library(testthat)
+library(seasonalityTest)
+library(stats)
 
-  # Check if data is numeric and not empty
-  if (!is.numeric(data) || length(data) == 0) {
-    stop("Data should be numeric and non-empty.")
-  }
+# Context for testing seasonalityTest package
+context("Testing seasonalityTest package")
 
-  # Check for NA or Inf values in data
-  if (any(is.na(data)) || any(is.infinite(data))) {
-    stop("Data cannot contain NA or Inf values.")
-  }
-
-  # If the data is already a time series, simplify and return it
-  if (is.ts(data)) {
-    return(ts(as.numeric(data), start = start(data), frequency = frequency(data)))
-  }
-
-  # Flatten in case of matrix or dataframe with one column
-  if (is.matrix(data) || is.data.frame(data)) {
-    if (ncol(data) == 1) {
-      data <- as.numeric(data[, 1])
-    } else {
-      stop("Multivariate data provided. This function expects a univariate series.")
-    }
-  }
-
-  # Check if s is a character or numeric and if it belongs to the supported values
-  allowed_s <- c("weekly", "monthly", "quarterly", "yearly", 52, 12, 4, 1)
-  if (!s %in% allowed_s) {
-    stop("Invalid value for 's'. Allowed values: 'weekly', 'monthly', 'quarterly', 'yearly' or 52, 12, 4, 1.")
-  }
-
-  # Convert s to a string if it's numeric
-  if (is.numeric(s)) {
-    s <- switch(as.character(s),
-                "1" = "yearly",
-                "4" = "quarterly",
-                "12" = "monthly",
-                "52" = "weekly",
-                stop("Invalid numeric frequency specified."))
-  }
-
-  s <- tolower(s)
-
-  frequency <- switch(s,
-                      weekly = 52,
-                      monthly = 12,
-                      quarterly = 4,
-                      yearly = 1,
-                      stop("Invalid frequency specified."))
-
-  if (length(data) < 2 * frequency) {
-    stop("Insufficient amount of data. Need sufficient data for at least 2 complete chosen seasons")
-  }
-
-  data <- ts(data, frequency = frequency)
-
-  # Simplify the data to remove any potential leftover attributes
-  data <- ts(as.numeric(data), start = start(data), frequency = frequency)
-
-  return(data)
+# Helper function to test for errors
+expect_error_message <- function(expr, expected_message) {
+  expect_error(expr, regexp = expected_message, fixed = TRUE)
 }
 
-#' Identify Trend in Data
-#'
-#' This function identifies the trend in a given numeric data vector or univariate time series.
-#'
-#' @param data A numeric vector or univariate time series.
-#' @param s The frequency of the time series. Can be one of "weekly", "monthly", "quarterly", "yearly" or 52, 12, 4, 1.
-#' @return A list containing the identified trend and the time series object.
-#' @examples
-#' data <- c(1, 2, 3, 4, 5)
-#' trend_result <- identify_trend(data, s = "monthly")
-#' @export
-identify_trend <- function(data, s="monthly") {
+# Test case 1: Basic functionality with linear trend
+test_that("Test seasonality_test with linear trend", {
+  data <- c(10, 15, 20, 15, 10)
 
-  if ((!is.character(s) && !is.numeric(s)) ||
-      !(s %in% c("weekly", "monthly", "quarterly", "yearly", 52, 12, 4, 1))) {
-    stop("Invalid value for 's'. Allowed values: 'weekly', 'monthly', 'quarterly', 'yearly' or 52, 12, 4, 1.")
-  }
+  result <- seasonality_test(data, trend = "linear")
 
+  expect_true(is.list(result))
+  expect_equal(names(result), c("message", "summary", "data"))
+  expect_equal(result$message, "Seasonality detected with linear trend.")
+  expect_true(all(result$summary$coefficients[, 4] < 0.05))  # Assuming significance level is 0.05
+})
 
-  data_ts <- convert_to_time_series(data, s)
-  index <- as.numeric(time(data_ts))
+# Test case 2: Quadratic trend with custom parameters
+test_that("Test seasonality_test with quadratic trend and custom parameters", {
+  data <- c(10, 20, 30, 20, 10)
 
-  cubic_model <- lm(data_ts ~ poly(index, 3))
+  result <- seasonality_test(data, trend = "quadratic", s = 4, confidence_level = 0.1)
 
-  p_values <- summary(cubic_model)$coefficients[,4]
+  expect_true(is.list(result))
+  expect_equal(names(result), c("message", "summary", "data"))
+  expect_equal(result$message, "Seasonality detected with quadratic trend.")
+  expect_true(all(result$summary$coefficients[, 4] < 0.1))  # Custom confidence level
+})
 
-  check_significance <- function(p_value) {
-    if (p_value < 0.001) {
-      return("a")
-    } else if (p_value < 0.01) {
-      return("b")
-    } else if (p_value < 0.05) {
-      return("c")
-    } else if (p_value < 0.1) {
-      return("d")
-    } else {
-      return("e")
-    }
-  }
+# Test case 3: No seasonality detected
+test_that("Test seasonality_test with no seasonality", {
+  data <- c(10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10, 10)  # Flat line, no seasonality
 
-  significance_levels <- sapply(p_values[-1], check_significance)  # Excluding the intercept
+  result <- seasonality_test(data, trend = "linear")
 
-  if (all(significance_levels == "e")) {
-    trend <- "unknown"
-  } else if (all(significance_levels == significance_levels[1])) {
-    trend <- "exponential"
-  } else if (significance_levels[1] == significance_levels[2]) {
-    trend <- "quadratic"
-  } else {
-    trend <- "linear"
-  }
+  expect_true(is.list(result))
+  expect_equal(names(result), c("message", "summary", "data"))
+  expect_equal(result$message, "No significant seasonality detected.")
+  expect_true(all(result$summary$coefficients[, 4] >= 0.05))  # Assuming significance level is 0.05
+})
 
-  return(list("trend" = trend, "data_ts" = data_ts))
-}
+# Test case 4: Empty input data
+test_that("Test seasonality_test with empty input", {
+  data <- numeric(0)
+
+  expect_error_message(seasonality_test(data, trend = "linear"), "Data should be numeric and non-empty.")
+})
+
+# Test case 5: Non-numeric input data
+test_that("Test seasonality_test with non-numeric input", {
+  data <- c("a", "b", "c")
+
+  expect_error_message(seasonality_test(data, trend = "linear"), "Data should be numeric and non-empty.")
+})
+
+# Test case 6: High frequency data with valid seasonality
+test_that("Test seasonality_test with high frequency data", {
+  data <- c(10, 20, 30, 20, 10, 30, 40, 50, 40, 30, 20, 10)  # Seasonal pattern
+
+  result <- seasonality_test(data, trend = "linear", s = 12)
+
+  expect_true(is.list(result))
+  expect_equal(names(result), c("message", "summary", "data"))
+  expect_equal(result$message, "Seasonality detected with linear trend.")
+  expect_true(all(result$summary$coefficients[, 4] < 0.05))  # Assuming significance level is 0.05
+})
+
+# Test case 7: Testing summary data option
+test_that("Test seasonality_test with summary_data option", {
+  data <- c(10, 20, 30, 20, 10)
+
+  result <- seasonality_test(data, trend = "linear", summary_data = FALSE)
+
+  expect_true(is.list(result))
+  expect_equal(names(result), c("message", "data"))
+  expect_equal(result$message, "Seasonality detected with linear trend.")
+})
+
+# Test case 8: Testing different trend types
+test_that("Test seasonality_test with different trend types", {
+  data <- c(10, 15, 20, 15, 10)
+
+  result_linear <- seasonality_test(data, trend = "linear")
+  result_quadratic <- seasonality_test(data, trend = "quadratic")
+  result_exponential <- seasonality_test(data, trend = "exponential")
+
+  expect_true(all(result_linear$summary$coefficients[, 4] < 0.05))
+  expect_true(all(result_quadratic$summary$coefficients[, 4] < 0.05))
+  expect_true(all(result_exponential$summary$coefficients[, 4] < 0.05))
+})
+
+# Test case 9: Test with large dataset
+test_that("Test seasonality_test with large dataset", {
+  data <- rnorm(1000)  # Random normal data
+
+  result <- seasonality_test(data, trend = "linear")
+
+  expect_true(is.list(result))
+  expect_equal(names(result), c("message", "summary", "data"))
+})
+
+# Test case 10: Test with missing values
+test_that("Test seasonality_test with missing values", {
+  data <- c(10, 20, NA, 30, 40)
+
+  expect_error_message(seasonality_test(data, trend = "linear"), "Data cannot contain NA or Inf values.")
+})
+
+# Test case 11: Test with outliers
+test_that("Test seasonality_test with outliers", {
+  data <- c(10, 15, 20, 1000, 10, 15, 20)
+
+  result <- seasonality_test(data, trend = "linear")
+
+  expect_true(is.list(result))
+  expect_equal(names(result), c("message", "summary", "data"))
+  expect_equal(result$message, "Seasonality detected with linear trend.")
+})
+
+# Test case 12: Test with short time series
+test_that("Test seasonality_test with short time series", {
+  data <- c(10, 15)
+
+  expect_error_message(seasonality_test(data, trend = "linear"), "Insufficient amount of data. Need sufficient data for at least 2 complete chosen seasons")
+})
+

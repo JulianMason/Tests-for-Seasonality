@@ -142,4 +142,3 @@ test_that("Test seasonality_test with short time series", {
   expect_equal(result$message, "Error: Input data too short for seasonality detection.")
 })
 
-# Add more test cases as needed to cover additional scenarios and edge cases
