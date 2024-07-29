@@ -18,6 +18,10 @@ A list containing the Ui, Vi, and Di values.
 This function performs a seasonality test assuming an exponential trend in the data.
 }
 \examples{
-data <- c(1:48)
-exponential_result <- exponential(data, s = 12)
+time_points <- 1:48
+# Example time series with an exponential trend
+data <- exp(0.1 * time_points) + rnorm(48, sd = 0.5)
+# Convert to a time series object
+ts_data <- ts(data, frequency = 12)
+exponential_result <- exponential(ts_data, s = 12)
 }

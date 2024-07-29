@@ -164,6 +164,7 @@ seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05) {
 
   return(result)
 }
+
 #' Interactive Seasonality Test
 #'
 #' This function performs an interactive seasonality test on a given time series data.
@@ -187,9 +188,8 @@ interactive_seasonality_test <- function(data, s=12, confidence_level = 0.05, su
   result_to_print$trend <- NULL
   result_to_print$trend_not_specified <- NULL
   if (!summary_data) {
-    print_result$summary_df <- NULL
+    result_to_print$summary_df <- NULL
   }
-  print(print_result)
   print(result_to_print)
 
   # Then, check if a trend was not specified in the result
@@ -224,6 +224,6 @@ interactive_seasonality_test <- function(data, s=12, confidence_level = 0.05, su
     }
   } else {
     print(result$message)
-    print(result$summary_data)
+    print(result$summary_df)
   }
 }
