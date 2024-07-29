@@ -4,14 +4,14 @@
 #'
 #' @param data A numeric vector or time series object.
 #' @param s The frequency of the time series.
-#' @param seasons_to_check A vector of seasons to check for seasonality.
 #' @return A list containing the Ui, Vi, and di values.
 #' @examples
-#' data <- c(1, 2, 3, 4, 5)
+#' data <- c(1:48)
 #' linear_result <- linear(data, s = 12)
 #' @export
-linear <- function(data, s = frequency(data), seasons_to_check = 1:s) {
-  #requireNamespace(forecast)
+#' @importFrom stats ts stl
+
+linear <- function(data, s = frequency(data)) {
 
   # Decompose the time series using STL
   ts_data <- ts(data, frequency = s)

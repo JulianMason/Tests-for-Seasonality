@@ -18,6 +18,6 @@ A list containing the identified trend and the time series object.
 This function identifies the trend in a given numeric data vector or univariate time series.
 }
 \examples{
-data <- c(1, 2, 3, 4, 5)
+data <- c(1:48)
 trend_result <- identify_trend(data, s = "monthly")
 }

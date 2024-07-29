@@ -8,7 +8,7 @@ Description: The seasonalityTest package provides a set of functions for testing
 License: MIT + file LICENSE
 URL: https://github.com/JulianMason/Tests-for-Seasonality
 BugReports: https://github.com/JulianMason/Tests-for-Seasonality/issues
-Depends: R(>= 4.2.1)
+Depends: R(>= 4.2.0)
 Encoding: UTF-8
 Suggests:
   roxygen2

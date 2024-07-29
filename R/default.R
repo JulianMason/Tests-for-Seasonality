@@ -9,6 +9,7 @@
 #' data <- c(1:48)
 #' ts_data <- convert_to_time_series(data, s = "monthly")
 #' @export
+#' @importFrom stats is.ts ts start frequency lm time
 convert_to_time_series <- function(data, s="monthly") {
 
   # Check if data is numeric and not empty
@@ -80,7 +81,7 @@ convert_to_time_series <- function(data, s="monthly") {
 #' @param s The frequency of the time series. Can be one of "weekly", "monthly", "quarterly", "yearly" or 52, 12, 4, 1.
 #' @return A list containing the identified trend and the time series object.
 #' @examples
-#' data <- c(1, 2, 3, 4, 5)
+#' data <- c(1:48)
 #' trend_result <- identify_trend(data, s = "monthly")
 #' @export
 identify_trend <- function(data, s="monthly") {

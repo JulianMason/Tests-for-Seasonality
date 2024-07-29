@@ -8,7 +8,6 @@ interactive_seasonality_test(
   data,
   s = 12,
   confidence_level = 0.05,
-  seasons_to_check = 1:s,
   summary_data = TRUE
 )
 }
@@ -19,8 +18,6 @@ interactive_seasonality_test(
 
 \item{confidence_level}{The desired confidence level for the statistical tests (default = 0.05).}
 
-\item{seasons_to_check}{A vector of seasons to check for seasonality.}
-
 \item{summary_data}{Flag indicating whether to include the results summary (default = TRUE).}
 }
 \value{
@@ -30,7 +27,7 @@ The result of the seasonality test.
 This function performs an interactive seasonality test on a given time series data.
 }
 \examples{
-data <- c(10, 15, 20, 15, 10)
+data <- c(1:48)
 result <- interactive_seasonality_test(data, s = 12, confidence_level = 0.05, summary_data = TRUE)
 print(result)
 }

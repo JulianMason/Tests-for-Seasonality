@@ -9,7 +9,6 @@ run_seasonality_test(
   trend = NULL,
   s = 12,
   confidence_level = 0.05,
-  seasons_to_check = 1:s,
   summary_data = TRUE
 )
 }
@@ -33,22 +32,22 @@ It internally calls \code{seasonality_test} or \code{interactive_seasonality_tes
 }
 \examples{
 # Example 1: Linear Trend with default Confidence Level and Summary Data
-data <- c(10, 15, 20, 15, 10)
+data <- c(1:48)
 result <- run_seasonality_test(data, trend = "linear", summary_data = TRUE)
 print(result)
 
 # Example 2: Linear Trend without specifying trend parameter
-data <- c(10, 15, 20, 15, 10)
+data <- c(1:48)
 result <- run_seasonality_test(data)
 print(result)
 
 # Example 3: Quadratic Trend with Different Confidence Level and No Summary Data
-data <- c(10, 15, 20, 15, 10)
+data <- c(1:48)
 result <- run_seasonality_test(data, trend = "quadratic", s = 2, confidence_level = 0.01)
 print(result)
 
 # Example 4: Exponential Trend with Default Confidence Level and Summary Data
-data <- c(10, 15, 20, 15, 10)
+data <- c(1:48)
 result <- run_seasonality_test(data, trend = "exponential", s = 0.5, summary_data = TRUE)
 print(result)
 

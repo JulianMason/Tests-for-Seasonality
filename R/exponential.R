@@ -6,9 +6,12 @@
 #' @param s The frequency of the time series.
 #' @return A list containing the Ui, Vi, and Di values.
 #' @examples
-#' data <- c(1, 2, 3, 4, 5)
+#' data <- c(1:48)
 #' exponential_result <- exponential(data, s = 12)
 #' @export
+#' @importFrom stats ts decompose coef
+#' @importFrom minpack.lm nls.lm.control nlsLM
+
 exponential <- function(data, s = frequency(data)) {
   # Decompose the time series using STL
   decomposed_data <- decompose(data)

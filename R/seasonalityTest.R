@@ -11,27 +11,31 @@
 #' @return A list containing the result message and the summary statistics for each statistical test.
 #' @examples
 #' # Example 1: Linear Trend with default Confidence Level and Summary Data
-#' data <- c(10, 15, 20, 15, 10)
+#' data <- c(1:48)
 #' result <- run_seasonality_test(data, trend = "linear", summary_data = TRUE)
 #' print(result)
 #'
 #' # Example 2: Linear Trend without specifying trend parameter
-#' data <- c(10, 15, 20, 15, 10)
+#' data <- c(1:48)
 #' result <- run_seasonality_test(data)
 #' print(result)
 #'
 #' # Example 3: Quadratic Trend with Different Confidence Level and No Summary Data
-#' data <- c(10, 15, 20, 15, 10)
+#' data <- c(1:48)
 #' result <- run_seasonality_test(data, trend = "quadratic", s = 2, confidence_level = 0.01)
 #' print(result)
 #'
 #' # Example 4: Exponential Trend with Default Confidence Level and Summary Data
-#' data <- c(10, 15, 20, 15, 10)
+#' data <- c(1:48)
 #' result <- run_seasonality_test(data, trend = "exponential", s = 0.5, summary_data = TRUE)
 #' print(result)
 #'
 #' @export
-run_seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05, seasons_to_check = 1:s, summary_data = TRUE) {
+#' @importFrom stats coef decompose frequency is.ts lm rnorm start stl t.test time ts wilcox.test
+#' @importFrom DescTools SignTest
+#' @importFrom crayon blue red
+#' @importFrom minpack.lm nls.lm.control nlsLM
+run_seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05, summary_data = TRUE) {
   summary_data <- summary_data
   if (is.null(trend)) {
     # If trend is NULL, run interactive version of seasonality test
@@ -57,15 +61,13 @@ run_seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05
 #' @param trend The trend type for the seasonality test. Supported options: linear, quadratic, exponential.
 #' @param s The seasonality parameter (default = 12).
 #' @param confidence_level The desired confidence level for the statistical tests (default = 0.05).
-#' @param seasons_to_check A vector of seasons to check for seasonality.
-#' @param summary_data Flag indicating whether to include the results summary (default = TRUE).
 #' @return A list containing the result message, summary statistics, and the time series data.
 #' @examples
-#' data <- c(10, 15, 20, 15, 10)
-#' result <- seasonality_test(data, trend = "linear", s = 12, confidence_level = 0.05, summary_data = TRUE)
+#' data <- c(1:48)
+#' result <- seasonality_test(data, trend = "linear", s = 12, confidence_level = 0.05)
 #' print(result)
 #' @export
-seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05, seasons_to_check = 1:s) {
+seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05) {
   # Ensure that the data is converted to a time series object
   data <- convert_to_time_series(data, s)
 
@@ -169,15 +171,14 @@ seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05, se
 #' @param data The input data for the seasonality test.
 #' @param s The seasonality parameter (default = 12).
 #' @param confidence_level The desired confidence level for the statistical tests (default = 0.05).
-#' @param seasons_to_check A vector of seasons to check for seasonality.
 #' @param summary_data Flag indicating whether to include the results summary (default = TRUE).
 #' @return The result of the seasonality test.
 #' @examples
-#' data <- c(10, 15, 20, 15, 10)
+#' data <- c(1:48)
 #' result <- interactive_seasonality_test(data, s = 12, confidence_level = 0.05, summary_data = TRUE)
 #' print(result)
 #' @export
-interactive_seasonality_test <- function(data, s=12, confidence_level = 0.05, seasons_to_check = 1:s, summary_data = TRUE) {
+interactive_seasonality_test <- function(data, s=12, confidence_level = 0.05, summary_data = TRUE) {
   summary_data <- summary_data
   # First, run the seasonality test without specifying a trend
   result <- seasonality_test(data, trend=NULL, s=s, confidence_level=confidence_level)

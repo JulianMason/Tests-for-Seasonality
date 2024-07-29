@@ -4,14 +4,7 @@
 \alias{seasonality_test}
 \title{Seasonality Test}
 \usage{
-seasonality_test(
-  data,
-  trend = NULL,
-  s = 12,
-  confidence_level = 0.05,
-  seasons_to_check = 1:s,
-  summary_data = TRUE
-)
+seasonality_test(data, trend = NULL, s = 12, confidence_level = 0.05)
 }
 \arguments{
 \item{data}{The input data for the seasonality test.}
@@ -21,10 +14,6 @@ seasonality_test(
 \item{s}{The seasonality parameter (default = 12).}
 
 \item{confidence_level}{The desired confidence level for the statistical tests (default = 0.05).}
-
-\item{seasons_to_check}{A vector of seasons to check for seasonality.}
-
-\item{summary_data}{Flag indicating whether to include the results summary (default = TRUE).}
 }
 \value{
 A list containing the result message, summary statistics, and the time series data.
@@ -33,7 +22,7 @@ A list containing the result message, summary statistics, and the time series da
 This function performs a seasonality test based on the specified trend and seasonality parameter.
 }
 \examples{
-data <- c(10, 15, 20, 15, 10)
-result <- seasonality_test(data, trend = "linear", s = 12, confidence_level = 0.05, summary_data = TRUE)
+data <- c(1:48)
+result <- seasonality_test(data, trend = "linear", s = 12, confidence_level = 0.05)
 print(result)
 }

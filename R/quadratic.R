@@ -6,11 +6,12 @@
 #' @param s The frequency of the time series.
 #' @return A list containing the Ui, Vi, and Di values.
 #' @examples
-#' data <- c(1, 2, 3, 4, 5)
+#' data <- c(1:48)
 #' quadratic_result <- quadratic(data, s = 12)
 #' @export
+#' @importFrom stats ts stl lm
+
 quadratic <- function(data, s) {
-  #requireNamespace(forecast)
 
   # Decompose the time series using STL
   decomposed_data <- stl(data, s.window="periodic")
@@ -61,4 +62,3 @@ quadratic <- function(data, s) {
 
   return(list(Ui = Ui, Vi = Vi, Di = Di))
 }
-

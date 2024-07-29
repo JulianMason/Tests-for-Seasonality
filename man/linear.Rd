@@ -4,14 +4,12 @@
 \alias{linear}
 \title{Linear Seasonality Test}
 \usage{
-linear(data, s = frequency(data), seasons_to_check = 1:s)
+linear(data, s = frequency(data))
 }
 \arguments{
 \item{data}{A numeric vector or time series object.}
 
 \item{s}{The frequency of the time series.}
-
-\item{seasons_to_check}{A vector of seasons to check for seasonality.}
 }
 \value{
 A list containing the Ui, Vi, and di values.
@@ -20,6 +18,6 @@ A list containing the Ui, Vi, and di values.
 This function performs a seasonality test assuming a linear trend in the data.
 }
 \examples{
-data <- c(1, 2, 3, 4, 5)
+data <- c(1:48)
 linear_result <- linear(data, s = 12)
 }

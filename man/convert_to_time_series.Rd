@@ -18,6 +18,6 @@ A time series object.
 This function converts a numeric data vector or univariate time series to a time series object with a specified frequency.
 }
 \examples{
-data <- c(1, 2, 3, 4, 5)
+data <- c(1:48)
 ts_data <- convert_to_time_series(data, s = "monthly")
 }
