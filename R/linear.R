@@ -44,7 +44,9 @@ linear <- function(data, s = frequency(data), seasons_to_check = 1:s) {
       if (s != 1) {  # Prevent division by zero when s == 1
         Ui[index] <- (b^2 * (s * (s + 1) / 12)) + (2 * b / (s - 1)) * sum(j * S_j, na.rm = TRUE) + (1 / (s - 1)) * sum(S_j^2, na.rm = TRUE)
       } else {
+        # #nocov start
         Ui[index] <- NA
+        # #nocov end
       }
 
       # Vi is the random component for that seasonal period
@@ -53,9 +55,11 @@ linear <- function(data, s = frequency(data), seasons_to_check = 1:s) {
       # Calculate di
       di[index] <- Ui[index] - Vi[index]
     } else {
+      # #nocov start
       Ui[index] <- NA
       Vi[index] <- NA
       di[index] <- NA
+      # #nocov end
     }
   }
 

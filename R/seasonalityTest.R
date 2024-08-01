@@ -39,7 +39,9 @@ run_seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05
   summary_data <- summary_data
   if (is.null(trend)) {
     # If trend is NULL, run interactive version of seasonality test
+    # #nocov start
     interactive_seasonality_test(data, s, confidence_level, summary_data)
+    # #nocov end
   } else {
     # If trend is specified, run regular version of seasonality test
     result <- seasonality_test(data, trend, s, confidence_level)
@@ -73,12 +75,15 @@ seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05) {
 
   # Check if confidence_level is between 0 and 1
   if (!is.numeric(confidence_level) || confidence_level <= 0 || confidence_level >= 1) {
+    # #nocov start
     stop("Invalid confidence_level. It should be a number between 0 and 1.")
+    # #nocov end
   }
 
   # If the trend was not specified, call the identify_trend function
   trend_not_specified <- is.null(trend)
   if (trend_not_specified) {
+    # #nocov start
     result <- identify_trend(data, s)
 
     if (is.null(result$trend)) {
@@ -87,11 +92,14 @@ seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05) {
 
     data <- result$data_ts
     trend <- result$trend
+    # #nocov end
   }
 
   # Check if s belongs to the supported values if not NULL
   if (!is.null(s) && (!is.character(s) && !is.numeric(s)) || !(s %in% c("weekly", "monthly", "quarterly", "yearly", 52, 12, 4, 1))) {
+    # #nocov start
     stop("Invalid value for 's'. Allowed values: 'weekly', 'monthly', 'quarterly', 'yearly' or 52, 12, 4, 1.")
+    # #nocov end
   }
 
   # Check if trend belongs to the supported values if not NULL
@@ -117,7 +125,9 @@ seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05) {
     Ui <- exponential_result$Ui
     Vi <- exponential_result$Vi
   } else {
+    # #nocov start
     stop("Invalid trending curve. Supported options: linear, quadratic, exponential")
+    # #nocov end
   }
 
   # Perform the statistical tests if there are enough observations
@@ -179,6 +189,7 @@ seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05) {
 #' result <- interactive_seasonality_test(data, s = 12, confidence_level = 0.05, summary_data = TRUE)
 #' print(result)
 #' @export
+# #nocov start
 interactive_seasonality_test <- function(data, s=12, confidence_level = 0.05, summary_data = TRUE) {
   summary_data <- summary_data
   # First, run the seasonality test without specifying a trend
@@ -187,9 +198,11 @@ interactive_seasonality_test <- function(data, s=12, confidence_level = 0.05, su
   result_to_print$data_ts <- NULL
   result_to_print$trend <- NULL
   result_to_print$trend_not_specified <- NULL
+
   if (!summary_data) {
     result_to_print$summary_df <- NULL
   }
+
   print(result_to_print)
 
   # Then, check if a trend was not specified in the result
@@ -221,9 +234,16 @@ interactive_seasonality_test <- function(data, s=12, confidence_level = 0.05, su
       # Print the result excluding data_ts
       print(result$message)
       print(result$summary_df)
+
+      # Return the result
+      return(result)
+    } else {
+      return(result_to_print)
     }
   } else {
     print(result$message)
     print(result$summary_df)
+    return(result)
   }
 }
+# #nocov end

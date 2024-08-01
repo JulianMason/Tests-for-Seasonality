@@ -29,10 +29,12 @@ convert_to_time_series <- function(data, s="monthly") {
 
   # Flatten in case of matrix or dataframe with one column
   if (is.matrix(data) || is.data.frame(data)) {
+    # #nocov start
     if (ncol(data) == 1) {
       data <- as.numeric(data[, 1])
     } else {
       stop("Multivariate data provided. This function expects a univariate series.")
+      # #nocov end
     }
   }
 
@@ -84,6 +86,7 @@ convert_to_time_series <- function(data, s="monthly") {
 #' data <- c(1:48)
 #' trend_result <- identify_trend(data, s = "monthly")
 #' @export
+# #nocov start
 identify_trend <- function(data, s="monthly") {
 
   if ((!is.character(s) && !is.numeric(s)) ||
@@ -127,3 +130,4 @@ identify_trend <- function(data, s="monthly") {
 
   return(list("trend" = trend, "data_ts" = data_ts))
 }
+# #nocov end

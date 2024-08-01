@@ -3,11 +3,9 @@ library(testthat)
 library(seasonalityTest)
 library(stats)
 library(DescTools)
+library(mockr)
 
 load("~/Documents/GitHub/Tests for Seasonality/data/internal_dataset.RData")
-
-# Context for testing seasonalityTest package
-context("Testing seasonalityTest package")
 
 # Helper function to test for errors
 expect_error_message <- function(expr, expected_message) {
@@ -134,4 +132,29 @@ test_that("Test seasonality_test with outliers", {
 test_that("Test seasonality_test with short time series", {
   data <- internal_dataset$linear_seasonal[1:5]
   expect_error_message(run_seasonality_test(data, trend = "linear"), "Insufficient amount of data. Need sufficient data for at least 2 complete chosen seasons. The default 's' is 12 (monthly), so the data should have at least 24 observations. Allowed values for 's' are 'weekly' (52), 'monthly' (12), 'quarterly' (4), 'yearly' (1).")
+})
+
+# Additional test cases for default.R
+test_that("convert_to_time_series handles different frequency values", {
+  data <- c(1:104)  # Sufficient data for weekly frequency
+  ts_data_weekly <- convert_to_time_series(data, s = "weekly")
+  expect_equal(frequency(ts_data_weekly), 52)
+
+  data <- c(1:24)  # Sufficient data for monthly frequency
+  ts_data_monthly <- convert_to_time_series(data, s = "monthly")
+  expect_equal(frequency(ts_data_monthly), 12)
+
+  data <- c(1:8)  # Sufficient data for quarterly frequency
+  ts_data_quarterly <- convert_to_time_series(data, s = "quarterly")
+  expect_equal(frequency(ts_data_quarterly), 4)
+
+  data <- c(1:2)  # Sufficient data for yearly frequency
+  ts_data_yearly <- convert_to_time_series(data, s = "yearly")
+  expect_equal(frequency(ts_data_yearly), 1)
+})
+
+test_that("convert_to_time_series handles invalid frequency values", {
+  data <- c(1:24)
+  expect_error(convert_to_time_series(data, s = "invalid"), "Invalid value for 's'.")
+  expect_error(convert_to_time_series(data, s = 99), "Invalid value for 's'. Allowed values: 'weekly', 'monthly', 'quarterly', 'yearly' or 52, 12, 4, 1.")
 })
