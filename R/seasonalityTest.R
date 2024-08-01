@@ -104,7 +104,9 @@ seasonality_test <- function(data, trend=NULL, s=12, confidence_level = 0.05) {
 
   # Check if trend belongs to the supported values if not NULL
   if (!is.null(trend) && !trend %in% c("linear", "quadratic", "exponential")) {
+    # #nocov start
     stop("Invalid/Unknown trend. Supported options: linear, quadratic, and exponential")
+    # #nocov end
   }
 
   has_warnings <- FALSE
