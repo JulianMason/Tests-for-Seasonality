@@ -1,5 +1,7 @@
 # Seasonality Test for Time Series Data: R Package
 
+[![codecov](https://codecov.io/github/JulianMason/Tests-for-Seasonality/graph/badge.svg?token=80ZCI1VDNJ)](https://codecov.io/github/JulianMason/Tests-for-Seasonality)
+
 ## Overview
 
 This project is an R package developed to detect seasonality in time series data, based on the advanced methodology proposed by Nwogu, Iwueze & Nlebedim (2016). The package simplifies the application of this comprehensive methodology, making it accessible and efficient for users without requiring specialized mathematical skills.
