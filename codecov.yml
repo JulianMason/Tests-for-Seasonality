@@ -1,0 +1,8 @@
+- name: Upload coverage to Codecov
+  uses: codecov/codecov-action@v4
+  coverage:
+    range: 60..80
+    round: down
+    precision: 2
+  env:
+    CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
