@@ -18,6 +18,6 @@ A list containing the Ui, Vi, and Di values.
 This function performs a seasonality test assuming a quadratic trend in the data.
 }
 \examples{
-data <- c(1:48)
+data <- ts(c(1:120), frequency = 12)
 quadratic_result <- quadratic(data, s = 12)
 }

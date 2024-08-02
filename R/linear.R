@@ -7,7 +7,7 @@
 #' @param seasons_to_check A vector of seasons to check for seasonality.
 #' @return A list containing the Ui, Vi, and di values.
 #' @examples
-#' data <- c(1:48)
+#' data <- ts(c(1:48), frequency = 12)
 #' linear_result <- linear(data, s = 12)
 #' @export
 #' @importFrom stats ts stl

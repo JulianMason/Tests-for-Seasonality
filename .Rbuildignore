@@ -1,3 +1,10 @@
 ^disso\.Rproj$
-^\.Rproj\.user$
 ^LICENSE\.md$
+^.*\.Rproj$
+^\.Rproj\.user$
+^\.git$
+^\.gitignore$
+^\.gitattributes$
+^\.DS_Store$
+^\.covrignore$
+^\.github$

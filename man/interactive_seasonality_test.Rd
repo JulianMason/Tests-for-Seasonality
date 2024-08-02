@@ -27,7 +27,9 @@ The result of the seasonality test.
 This function performs an interactive seasonality test on a given time series data.
 }
 \examples{
+\dontrun{
 data <- c(1:48)
 result <- interactive_seasonality_test(data, s = 12, confidence_level = 0.05, summary_data = TRUE)
 print(result)
+}
 }

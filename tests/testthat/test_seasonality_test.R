@@ -3,9 +3,9 @@ library(testthat)
 library(seasonalityTest)
 library(stats)
 library(DescTools)
-library(mockr)
 
-load("~/Documents/GitHub/Tests for Seasonality/data/internal_dataset.RData")
+# Load the internal dataset
+data(internal_dataset)
 
 # Helper function to test for errors
 expect_error_message <- function(expr, expected_message) {

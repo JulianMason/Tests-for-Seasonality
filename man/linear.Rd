@@ -20,6 +20,6 @@ A list containing the Ui, Vi, and di values.
 This function performs a seasonality test assuming a linear trend in the data.
 }
 \examples{
-data <- c(1:48)
+data <- ts(c(1:48), frequency = 12)
 linear_result <- linear(data, s = 12)
 }

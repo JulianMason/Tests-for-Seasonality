@@ -6,7 +6,7 @@
 #' @param s The frequency of the time series.
 #' @return A list containing the Ui, Vi, and Di values.
 #' @examples
-#' data <- c(1:48)
+#' data <- ts(c(1:120), frequency = 12)
 #' quadratic_result <- quadratic(data, s = 12)
 #' @export
 #' @importFrom stats ts stl lm

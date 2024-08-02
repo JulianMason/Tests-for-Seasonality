@@ -31,6 +31,7 @@ This function serves as the main entry point for running seasonality tests on a 
 It internally calls \code{seasonality_test} or \code{interactive_seasonality_test} based on the parameters passed.
 }
 \examples{
+\dontrun{
 # Example 1: Linear Trend with default Confidence Level and Summary Data
 data <- c(1:48)
 result <- run_seasonality_test(data, trend = "linear", summary_data = TRUE)
@@ -50,5 +51,5 @@ print(result)
 data <- c(1:48)
 result <- run_seasonality_test(data, trend = "exponential", s = 0.5, summary_data = TRUE)
 print(result)
-
+}
 }

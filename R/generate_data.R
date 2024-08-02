@@ -1,6 +1,6 @@
 # Load required libraries
 library(stats)
-require(stats)
+require(usethis)
 
 # Synthetic Data Generation Function
 generate_timeseries <- function(trend, seasonality = TRUE, noise = TRUE) {
@@ -91,4 +91,4 @@ internal_dataset <- list(
 )
 
 # Save the internal dataset to a file
-save(internal_dataset, file = "data/internal_dataset.RData")
+usethis::use_data(internal_dataset, overwrite = TRUE)

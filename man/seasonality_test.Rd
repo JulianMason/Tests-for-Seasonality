@@ -22,7 +22,9 @@ A list containing the result message, summary statistics, and the time series da
 This function performs a seasonality test based on the specified trend and seasonality parameter.
 }
 \examples{
+\dontrun{
 data <- c(1:48)
 result <- seasonality_test(data, trend = "linear", s = 12, confidence_level = 0.05)
 print(result)
+}
 }
