@@ -19,5 +19,6 @@ Imports:
     minpack.lm,
     crayon,
     DescTools,
+    usethis
 LazyData: true
 Config/testthat/edition: 3

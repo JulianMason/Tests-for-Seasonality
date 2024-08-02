@@ -1,8 +1,14 @@
-# Load required libraries
-library(stats)
-require(usethis)
-
-# Synthetic Data Generation Function
+#' Generate Synthetic Datasets
+#'
+#' This function generates synthetic datasets with various trends and seasonality for testing purposes.
+#'
+#' @param trend The trend type for the synthetic data. Options are "linear", "quadratic", or "exponential".
+#' @param seasonality Logical, indicating whether to include seasonality in the synthetic data.
+#' @param noise Logical, indicating whether to include noise in the synthetic data.
+#' @return A list containing multiple synthetic datasets.
+#' @export
+#' @import usethis
+#' @import stats
 generate_timeseries <- function(trend, seasonality = TRUE, noise = TRUE) {
   n <- 600  # 10 years of monthly data
   noise_component <- ifelse(noise, rnorm(n, 0, 3), rep(0, n))
