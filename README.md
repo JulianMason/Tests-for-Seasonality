@@ -1,8 +1,6 @@
 # Seasonality Test for Time Series Data: R Package
 
-[![codecov](https://codecov.io/github/JulianMason/Tests-for-Seasonality/graph/badge.svg?token=80ZCI1VDNJ)](https://codecov.io/github/JulianMason/Tests-for-Seasonality)
-
-[![R-hub](https://github.com/JulianMason/Tests-for-Seasonality/actions/workflows/rhub.yaml/badge.svg)](https://github.com/JulianMason/Tests-for-Seasonality/actions/workflows/rhub.yaml)
+[![codecov](https://codecov.io/github/JulianMason/Tests-for-Seasonality/graph/badge.svg?token=80ZCI1VDNJ)](https://codecov.io/github/JulianMason/Tests-for-Seasonality) [![R-hub](https://github.com/JulianMason/Tests-for-Seasonality/actions/workflows/rhub.yaml/badge.svg)](https://github.com/JulianMason/Tests-for-Seasonality/actions/workflows/rhub.yaml)
 
 ## Overview
 
