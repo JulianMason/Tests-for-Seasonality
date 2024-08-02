@@ -5,7 +5,7 @@ Authors@R:
     person("Julian", "Bara-Mason", , email="JDBMason@protonmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "YOUR-ORCID-ID"))
 Description: The seasonalityTest package provides a set of functions for testing the presence of seasonality in time series data. It offers various trend options such as linear, quadratic, and exponential. The main function, run_seasonality_test, performs statistical tests on the data based on the specified trend and returns a result indicating the presence or absence of statistically significant seasonality. Additionally, the package allows users to obtain detailed summary statistics for each test if desired. With the seasonalityTest package, users can easily assess whether their time series data exhibits significant seasonality, enabling them to make informed decisions and insights based on the results.
-License: MIT
+License: MIT + file LICENSE
 URL: https://github.com/JulianMason/Tests-for-Seasonality
 BugReports: https://github.com/JulianMason/Tests-for-Seasonality/issues
 Depends: R(>= 4.2.0)
