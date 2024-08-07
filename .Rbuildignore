@@ -1,5 +1,4 @@
 ^disso\.Rproj$
-^LICENSE\.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^\.git$
@@ -8,3 +7,4 @@
 ^\.DS_Store$
 ^\.covrignore$
 ^\.github$
+^cran-comments\.md$
